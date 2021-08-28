@@ -32,13 +32,16 @@ bdims <- read_csv("bdims-1.csv")
 
 # View structure of dataset
 str(bdims)
+```
 
+```{r}
 # Set gender as factor
 bdims$sex <- factor(bdims$sex, levels = c(0, 1), labels = c("female", "male"))
 
 # Check attributes of gender factor
 attributes(bdims$sex)
 ```
+
 ```{r}
 # Selecting only variables of interest from entire dataset
 biiliac_gender <- bdims %>% dplyr::select(bii.di, sex)
