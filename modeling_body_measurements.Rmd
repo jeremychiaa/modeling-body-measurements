@@ -139,7 +139,6 @@ Compare the empirical distribution of selected body measurement to a normal dist
 
 
 ```{r}
-# This is a chunk for your Distribution Fitting section.
 # Plotting distribution for males billiac width
 hist(biiliac_male$bii.di, freq = FALSE, breaks = 12, xlab = "Biiliac Diameter (cm)", main = "Histogram of Male Biiliac Diameter (cm)")
 
@@ -154,14 +153,19 @@ lines(seq(male_range[1], male_range[2], by=.5), dnorm(seq(male_range[1], male_ra
 legend(19, 0.20, legend=c("Empirical Density", "Normal Density"), col=c("red", "blue"), lty=1:1, cex=0.8)
 ```
 ```{r}
-male_range[2]
+# Plotting distribution for female billiac width
+hist(biiliac_female$bii.di, freq = FALSE, breaks = 12, xlab = "Biiliac Diameter (cm)", main = "Histogram of Female Biiliac Diameter (cm)")
+
+# Adding empirical density line
+lines(density(biiliac_female$bii.di), col = "red")
+
+# Adding normal density line
+lines(seq(female_range[1], female_range[2], by=.5), dnorm(seq(female_range[1], female_range[2], by=.5),
+      female_mean, female_sd), col="blue")
+
+# Adding legends
+legend(19, 0.20, legend=c("Empirical Density", "Normal Density"), col=c("red", "blue"), lty=1:1, cex=0.8)
 ```
-
-```{r}
-biiliac_female$bii.di %>% hist(xlab = "Biiliac Diameter (cm)", main = "Histogram of Female Biiliac Diameter (cm)")
-
-
-
 ## Interpretation
 
 Going back to your problem statement, what insight has been gained from the investigation? Discuss the extent to how your theoretical normal distribution fits the empirical data.
