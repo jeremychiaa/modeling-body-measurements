@@ -1,0 +1,169 @@
+---
+title: "MATH1324 Assignment 1"
+subtitle: Modeling Body Measurements
+output:
+  html_notebook: default
+---
+
+## Student Details
+
+
+Jeremy Jian Zhi Chia (s3917515)
+
+
+## Problem Statement
+
+Write a clear and concise problem statement that guides your investigation. Explain which variable you choose and outline the approaches taken for normal distribution fitting.
+
+The biiliac width refers to the largest measurement of the pelvis between the outside borders of the upper iliac bones in human, more commonly known as the pelvic bone width. The variable chosen in this investigation is the biiliac diameter. In general, the distribution of biiliac diameter among adults are similar and their measurement values are close to the mean, with a lower frequency of higher/lower measurement values. That being said, values near to the mean are rather common, while those further from the mean are less common.
+- discuss about general distribution of biiliac width
+
+The purpose of this investigation is to determine if the biiliac diameter in men and women fit a normal distribution.
+
+## Load Packages
+
+```{r}
+# Import dependencies
+library(readr)
+library(dplyr)
+library(tidyr)
+```
+
+## Data
+
+Import the body measurements data and prepare it for analysis. Show your code.
+
+
+```{r}
+# Import dataset
+bdims <- read_csv("bdims-1.csv")
+
+# View structure of dataset
+str(bdims)
+
+# Set gender as factor
+bdims$sex <- factor(bdims$sex, levels = c(0, 1), labels = c("female", "male"))
+
+# Check attributes of gender factor
+attributes(bdims$sex)
+```
+```{r}
+# Selecting only variables of interest from entire dataset
+biiliac_gender <- bdims %>% dplyr::select(bii.di, sex)
+
+# View selected variables
+biiliac_gender %>% head()
+```
+
+
+## Summary Statistics
+
+
+Calculate descriptive statistics (i.e., mean, median, standard deviation, first and third quartile, interquartile range, minimum and maximum values) of the selected measurement grouped by sex.
+
+```{r}
+# Create new variables and filter by gender
+biiliac_male <- biiliac_gender %>% filter(sex == "male")
+biiliac_female <- biiliac_gender %>% filter(sex == "female")
+```
+
+```{r}
+# Mean of male biiliac width
+male_mean <- biiliac_male$bii.di %>% mean()
+male_mean
+```
+```{r}
+# Mean of female biiliac width
+female_mean <- biiliac_female$bii.di %>% mean()
+female_mean
+```
+```{r}
+# Median of male biiliac width
+male_median <- biiliac_male$bii.di %>% median()
+male_median
+```
+```{r}
+# Median of female biiliac width
+female_median <- biiliac_female$bii.di %>% median()
+female_median
+```
+```{r}
+# SD of male biiliac width
+male_sd <- biiliac_male$bii.di %>% sd()
+male_sd
+```
+```{r}
+# SD of female biiliac width
+female_sd <- biiliac_female$bii.di %>% sd()
+female_sd
+```
+
+```{r}
+# Quartiles of male biiliac width
+male_quantile <- biiliac_male$bii.di %>% quantile()
+male_quantile
+```
+The first quartile for males biiliac width is 26.8 and the third quartile is 29.45.
+
+```{r}
+# Quartiles of male biiliac width
+female_quantile <- biiliac_female$bii.di %>% quantile()
+female_quantile
+```
+The first quartile for females biiliac width is 26.2 and the third quartile is 29.2.
+
+```{r}
+# IQR of male biiliac width
+male_iqr <- biiliac_male$bii.di %>% IQR()
+male_iqr
+```
+```{r}
+# IQR of female biiliac width
+female_iqr <- biiliac_female$bii.di %>% IQR()
+female_iqr
+```
+```{r}
+# Min/Max of male biiliac width
+male_range <- biiliac_male$bii.di %>% range()
+male_range
+```
+```{r}
+# Min/Max of male biiliac width
+female_range <- biiliac_female$bii.di %>% range()
+female_range
+```
+
+## Distribution Fitting
+
+Compare the empirical distribution of selected body measurement to a normal distribution separately in men and in women. You need to do this visually by plotting the histogram with normal distribution overlay. Show your code.
+
+
+```{r}
+# This is a chunk for your Distribution Fitting section.
+# Plotting distribution for males billiac width
+hist(biiliac_male$bii.di, freq = FALSE, breaks = 12, xlab = "Biiliac Diameter (cm)", main = "Histogram of Male Biiliac Diameter (cm)")
+
+# Adding empirical density line
+lines(density(biiliac_male$bii.di), col = "red")
+
+# Adding normal density line
+lines(seq(male_range[1], male_range[2], by=.5), dnorm(seq(male_range[1], male_range[2], by=.5),
+      male_mean, male_sd), col="blue")
+
+# Adding legends
+legend(19, 0.20, legend=c("Empirical Density", "Normal Density"), col=c("red", "blue"), lty=1:1, cex=0.8)
+```
+```{r}
+male_range[2]
+```
+
+```{r}
+biiliac_female$bii.di %>% hist(xlab = "Biiliac Diameter (cm)", main = "Histogram of Female Biiliac Diameter (cm)")
+
+
+
+## Interpretation
+
+Going back to your problem statement, what insight has been gained from the investigation? Discuss the extent to how your theoretical normal distribution fits the empirical data.
+
+
